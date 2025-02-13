@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function ChatApp() {
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+
+  const sendMessage = () => {
+    if (message.trim() !== "") {
+      setMessages([...messages, message]);
+      setMessage("");
+    }
+  };
 
   return (
     <div className="flex h-screen w-screen border border-black bg-gray-100">
@@ -19,17 +27,30 @@ export default function ChatApp() {
         </div>
         
         {/* Chat Window */}
-        <div className="flex-1 p-4 overflow-auto">Chat messages go here</div>
+        <div className="flex-1 p-4 overflow-auto flex flex-col gap-2">
+          {messages.map((msg, index) => (
+            <div key={index} className="max-w-xs p-2 bg-blue-500 text-white rounded-lg self-end">
+              {msg}
+            </div>
+          ))}
+        </div>
         
         {/* Input Box */}
-        <div className="border-t border-black p-4 bg-gray-200">
+        <div className="border-t border-black p-4 bg-gray-200 flex">
           <input 
             type="text" 
             className="w-full p-2 border border-black rounded" 
             placeholder="Type a message..." 
             value={message} 
             onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
           />
+          <button 
+            className="ml-2 p-2 bg-blue-500 text-white rounded" 
+            onClick={sendMessage}
+          >
+            Send
+          </button>
         </div>
       </div>
     </div>
