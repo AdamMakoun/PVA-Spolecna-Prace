@@ -30,6 +30,7 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <a href="/register" className="float-right mb-3">Not mogged?</a>
         <button
           onClick={handleLogin}
           className="w-full px-4 py-2 bg-blue-500 text-white rounded"

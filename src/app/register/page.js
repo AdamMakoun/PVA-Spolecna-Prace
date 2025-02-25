@@ -38,6 +38,7 @@ export default function RegisterPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <a href="/login" className="float-right mb-3">Already mogged in?</a>
         <button
           onClick={handleRegister}
           className="w-full px-4 py-2 bg-blue-500 text-white rounded"
