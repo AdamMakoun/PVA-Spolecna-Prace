@@ -1,3 +1,5 @@
+//Express, přepsat do next.js
+
 var express = require('express');
 var pg = require('pg-promise')({});
 var app = express();
