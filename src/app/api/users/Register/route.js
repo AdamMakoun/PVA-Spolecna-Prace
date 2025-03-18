@@ -11,7 +11,7 @@ export async function POST(req){
             name: input.name,
             pw: hashedPasswd
         });
-        return new Response('Uživatel vytvořen');
+        return new Response('Uživatel vytvořen', {status: 201});
     }
-    return new Response('Nesprávný vstup');
+    return new Response('Nesprávný vstup', {status: 400});
 }
