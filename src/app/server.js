@@ -19,7 +19,7 @@ io.on("connection", socket => {
         }
     });
     socket.on("join-room", (room, previousRoom, userName) => {
-        if(room){
+        if(room && userName){
             if(!db.one("SELECT * FROM room WHERE name = ${roomName}", {roomName: room})){
                 db.none("INSERT INTO room(name) VALUES(${roomName})", {roomName: room}); 
             }
@@ -33,8 +33,8 @@ io.on("connection", socket => {
                      db.none("INSERT INTO user_room(user_id, room_id) VALUES(${usrId}, ${rmId})", {usrId: userIdQuery.id, rmId: roomIdQuery.id}); 
             }
         }
-
-        socket.leave(previousRoom);
+        if(previousRoom)
+            socket.leave(previousRoom);
         socket.join(room);
     });
 })
