@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
+var io = require("socket.io-client");
+var socket = io("http://localhost:3000");
+
 export default function ChatApp() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([
@@ -14,6 +17,7 @@ export default function ChatApp() {
   const sendMessage = () => {
     if (message.trim() !== "") {
       setMessages([...messages, `You: ${message}`]);
+      socket.emit("message-sent", message);
       setMessage("");
     }
   };
@@ -21,6 +25,13 @@ export default function ChatApp() {
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  socket.on("connect", () =>{
+    console.log("connected");
+    socket.on("message-receive", (message, sender)=>{
+      setMessages([...messages, `${sender}: ${message}`]);
+    });
+  });
 
   return (
     <div className="flex h-screen w-screen border border-black bg-gray-100">

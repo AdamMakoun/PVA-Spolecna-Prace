@@ -10,12 +10,12 @@ var db = require("db");
 io.on("connection", socket => {
     console.log(socket.id);
 
-    socket.on("message-sent", (message, room) => {
+    socket.on("message-sent", (message, room, sender) => {
         console.log(message);
         console.log(room);
 
-        if(room){
-            io.to(room).emit("message-receive", message);
+        if(room && sender){
+            io.to(room).emit("message-receive", message, sender);
         }
     });
     socket.on("join-room", (room, previousRoom, userName) => {
